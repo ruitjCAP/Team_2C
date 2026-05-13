@@ -10,12 +10,9 @@ from pathlib import Path
 import DB.question as q
 load_dotenv()
 
-PROCESS_PATH = "./json_processed/bpmn_analytics_dataStore.json"
+PROCESS_PATH = "./json_processed/bpmn_analytics.json"
 
 
-
-PROCESS_PATH = os.getenv("JSON_FILE")
-print()
 import json
 from typing import Optional, List
 from pydantic import BaseModel, Field
@@ -26,12 +23,7 @@ from Client.llmClient import create_llm
 
 
 class ProcessSummarizationInput(BaseModel):
-    process_json_path: Optional[str] = Field(
-        default=PROCESS_PATH,
-        description=(
-            "Path to the BPMN process JSON file that should be summarized."
-        ),
-    )
+
 
     focus: Optional[str] = Field(
         default="full_process_context",
@@ -78,7 +70,7 @@ class ProcessSummarizationInput(BaseModel):
 
 @tool(args_schema=ProcessSummarizationInput)
 def summarize_process_for_analysis(
-    process_json_path: Optional[str] = PROCESS_PATH,
+
     focus: Optional[str] = "full_process_context",
     include_precedences: bool = True,
     include_decision_paths: bool = True,
@@ -96,7 +88,7 @@ def summarize_process_for_analysis(
     controls, and missing context.
     """
 
-    with open(process_json_path, encoding="utf-8") as f:
+    with open(PROCESS_PATH, encoding="utf-8") as f:
         process_data = json.load(f)
 
     llm = create_llm()

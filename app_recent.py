@@ -7,6 +7,8 @@ from reasoning_LangGraph import build_compliance_graph,print_stream2
 from dotenv import load_dotenv
 import os
 
+PROCESS_PATH = "./json_processed/bpmn_analytics.json"
+
 # Load env vars
 load_dotenv()
 # =========================
@@ -330,22 +332,17 @@ if submitted:
         timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M")
         filename = f"BPMN_Analytics_{timestamp}.json"
 
-        BPMN.export_bpmn_analytics_json(temp_path,filename)
+        BPMN.export_bpmn_analytics_json(temp_path,PROCESS_PATH)
 
         graph = build_compliance_graph()
-        os.putenv("JSON_FILE",filename)
+
         report = print_stream2(graph.stream(
         {
-            "messages": [
-                {
-                    "role": "user",
-                    "content": "Is my BPMN process is compliant regarding the order of each task?",
-                }
-            ],
+
             "user_question": "Is my process compliant?"
         },stream_mode="values"
     ))
-        os.remove(filename)
+
 
         st.markdown(
             f"""
