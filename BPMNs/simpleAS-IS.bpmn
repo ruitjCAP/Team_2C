@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_ComplianceAlignmentReview" targetNamespace="http://example.com/bpmn/compliance-alignment-review" exporter="bpmn-js (https://demo.bpmn.io)" exporterVersion="18.13.2">
+  <bpmn:process id="ComplianceAlignmentReviewProcess" name="Compliance Alignment Review" isExecutable="true">
+    <bpmn:laneSet id="LaneSet_1">
+      <bpmn:lane id="Lane_Business" name="Business Owner / Process Owner">
+        <bpmn:flowNodeRef>StartEvent_SubmitNeed</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_SubmitRequest</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_ProvideClarification</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_StoreEvidence</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>EndEvent_CaseClosed</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="StartEvent_SubmitNeed" name="Need for review identified">
+      <bpmn:outgoing>Flow_1</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:userTask id="Task_SubmitRequest" name="Submit process change request">
+      <bpmn:incoming>Flow_1</bpmn:incoming>
+      <bpmn:outgoing>Flow_2</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="Task_ProvideClarification" name="Provide clarification / missing documents">
+      <bpmn:incoming>Flow_2</bpmn:incoming>
+      <bpmn:outgoing>Flow_0p88xqs</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:endEvent id="EndEvent_CaseClosed" name="Case closed">
+      <bpmn:incoming>Flow_1v78zc2</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="StartEvent_SubmitNeed" targetRef="Task_SubmitRequest" />
+    <bpmn:dataStoreReference id="DataStoreReference_1rinovk" name="Database store" />
+    <bpmn:userTask id="Task_StoreEvidence" name="Store evidence and close case">
+      <bpmn:incoming>Flow_0p88xqs</bpmn:incoming>
+      <bpmn:outgoing>Flow_1v78zc2</bpmn:outgoing>
+      <bpmn:dataOutputAssociation id="DataOutputAssociation_1s7gpwv">
+        <bpmn:targetRef>DataStoreReference_1rinovk</bpmn:targetRef>
+      </bpmn:dataOutputAssociation>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_2" sourceRef="Task_SubmitRequest" targetRef="Task_ProvideClarification" />
+    <bpmn:sequenceFlow id="Flow_1v78zc2" sourceRef="Task_StoreEvidence" targetRef="EndEvent_CaseClosed" />
+    <bpmn:sequenceFlow id="Flow_0p88xqs" sourceRef="Task_ProvideClarification" targetRef="Task_StoreEvidence" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="ComplianceAlignmentReviewProcess">
+      <bpmndi:BPMNShape id="Lane_Business_di" bpmnElement="Lane_Business" isHorizontal="true">
+        <dc:Bounds x="160" y="80" width="1570" height="390" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="StartEvent_SubmitNeed_di" bpmnElement="StartEvent_SubmitNeed">
+        <dc:Bounds x="210" y="132" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="189" y="168" width="79" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_SubmitRequest_di" bpmnElement="Task_SubmitRequest">
+        <dc:Bounds x="290" y="110" width="150" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_ProvideClarification_di" bpmnElement="Task_ProvideClarification">
+        <dc:Bounds x="800" y="110" width="200" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_StoreEvidence_di" bpmnElement="Task_StoreEvidence">
+        <dc:Bounds x="1275" y="160" width="170" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DataStoreReference_1rinovk_di" bpmnElement="DataStoreReference_1rinovk">
+        <dc:Bounds x="1285" y="365" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1273" y="422" width="75" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_CaseClosed_di" bpmnElement="EndEvent_CaseClosed">
+        <dc:Bounds x="1622" y="212" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1610" y="248" width="61" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="DataOutputAssociation_1s7gpwv_di" bpmnElement="DataOutputAssociation_1s7gpwv">
+        <di:waypoint x="1352" y="240" />
+        <di:waypoint x="1325" y="365" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1_di" bpmnElement="Flow_1">
+        <di:waypoint x="246" y="150" />
+        <di:waypoint x="290" y="150" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_2_di" bpmnElement="Flow_2">
+        <di:waypoint x="440" y="150" />
+        <di:waypoint x="800" y="150" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1v78zc2_di" bpmnElement="Flow_1v78zc2">
+        <di:waypoint x="1445" y="200" />
+        <di:waypoint x="1534" y="200" />
+        <di:waypoint x="1534" y="230" />
+        <di:waypoint x="1622" y="230" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0p88xqs_di" bpmnElement="Flow_0p88xqs">
+        <di:waypoint x="1000" y="150" />
+        <di:waypoint x="1138" y="150" />
+        <di:waypoint x="1138" y="200" />
+        <di:waypoint x="1275" y="200" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

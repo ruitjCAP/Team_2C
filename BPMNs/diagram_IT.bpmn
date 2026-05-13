@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_1r8tidd" targetNamespace="http://bpmn.io/schema/bpmn" exporter="bpmn-js (https://demo.bpmn.io)" exporterVersion="18.13.2">
+  <bpmn:collaboration id="Collaboration_0q6z1ja">
+    <bpmn:participant id="Participant_0gavjmi" name="IT Team" processRef="Process_015pdjo" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_015pdjo" isExecutable="false">
+    <bpmn:laneSet id="LaneSet_17d7ruz" />
+    <bpmn:startEvent id="StartEvent_0lcreiy">
+      <bpmn:outgoing>Flow_0m6fv19</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:task id="Activity_067nzu1" name="Save settings">
+      <bpmn:incoming>Flow_0m6fv19</bpmn:incoming>
+      <bpmn:outgoing>Flow_01rtgf0</bpmn:outgoing>
+      <bpmn:dataOutputAssociation id="DataOutputAssociation_0c3krgi">
+        <bpmn:targetRef>DataStoreReference_0n4o1oj</bpmn:targetRef>
+      </bpmn:dataOutputAssociation>
+    </bpmn:task>
+    <bpmn:dataStoreReference id="DataStoreReference_0n4o1oj" name="Stored settings" />
+    <bpmn:endEvent id="Event_0dep6xp">
+      <bpmn:incoming>Flow_01rtgf0</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_0m6fv19" sourceRef="StartEvent_0lcreiy" targetRef="Activity_067nzu1" />
+    <bpmn:sequenceFlow id="Flow_01rtgf0" sourceRef="Activity_067nzu1" targetRef="Event_0dep6xp" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0q6z1ja">
+      <bpmndi:BPMNShape id="Participant_0gavjmi_di" bpmnElement="Participant_0gavjmi" isHorizontal="true">
+        <dc:Bounds x="156" y="38" width="400" height="270" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_0lcreiy">
+        <dc:Bounds x="206" y="82" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_067nzu1_di" bpmnElement="Activity_067nzu1">
+        <dc:Bounds x="300" y="60" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DataStoreReference_0n4o1oj_di" bpmnElement="DataStoreReference_0n4o1oj">
+        <dc:Bounds x="325" y="235" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="313" y="293" width="74" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0dep6xp_di" bpmnElement="Event_0dep6xp">
+        <dc:Bounds x="462" y="82" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0m6fv19_di" bpmnElement="Flow_0m6fv19">
+        <di:waypoint x="242" y="100" />
+        <di:waypoint x="300" y="100" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_01rtgf0_di" bpmnElement="Flow_01rtgf0">
+        <di:waypoint x="400" y="100" />
+        <di:waypoint x="462" y="100" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DataOutputAssociation_0c3krgi_di" bpmnElement="DataOutputAssociation_0c3krgi">
+        <di:waypoint x="351" y="140" />
+        <di:waypoint x="354" y="235" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

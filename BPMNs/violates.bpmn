@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions
+    xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+    xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+    xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+    xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+    id="Definitions_AML_Policy_Violation"
+    targetNamespace="http://example.com/bpmn">
+
+  <!-- PROCESS -->
+  <bpmn:process
+      id="Process_CustomerOnboarding"
+      name="Customer Onboarding (Policy Violation)"
+      isExecutable="false">
+
+    <bpmn:startEvent id="StartEvent_1" name="Application Received">
+      <bpmn:outgoing>Flow_1</bpmn:outgoing>
+    </bpmn:startEvent>
+
+    <bpmn:task id="Task_ReceiveApplication" name="Receive Customer Application">
+      <bpmn:incoming>Flow_1</bpmn:incoming>
+      <bpmn:outgoing>Flow_2</bpmn:outgoing>
+    </bpmn:task>
+
+    <!-- POLICY VIOLATION: Approval before CDD -->
+    <bpmn:task id="Task_ApproveOnboarding" name="Approve Customer Onboarding">
+      <bpmn:incoming>Flow_2</bpmn:incoming>
+      <bpmn:outgoing>Flow_3</bpmn:outgoing>
+    </bpmn:task>
+
+    <bpmn:task id="Task_PerformCDD" name="Perform Customer Due Diligence">
+      <bpmn:incoming>Flow_3</bpmn:incoming>
+      <bpmn:outgoing>Flow_4</bpmn:outgoing>
+    </bpmn:task>
+
+    <bpmn:endEvent id="EndEvent_1" name="Process Completed">
+      <bpmn:incoming>Flow_4</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <!-- SEQUENCE FLOWS -->
+    <bpmn:sequenceFlow id="Flow_1"
+                       sourceRef="StartEvent_1"
+                       targetRef="Task_ReceiveApplication"/>
+
+    <bpmn:sequenceFlow id="Flow_2"
+                       sourceRef="Task_ReceiveApplication"
+                       targetRef="Task_ApproveOnboarding"/>
+
+    <bpmn:sequenceFlow id="Flow_3"
+                       sourceRef="Task_ApproveOnboarding"
+                       targetRef="Task_PerformCDD"/>
+
+    <bpmn:sequenceFlow id="Flow_4"
+                       sourceRef="Task_PerformCDD"
+                       targetRef="EndEvent_1"/>
+
+  </bpmn:process>
+
+  <!-- BPMN DIAGRAM -->
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_CustomerOnboarding">
+
+      <bpmndi:BPMNShape id="StartEvent_1_di" bpmnElement="StartEvent_1">
+        <dc:Bounds x="100" y="100" width="36" height="36"/>
+      </bpmndi:BPMNShape>
+
+      <bpmndi:BPMNShape id="Task_ReceiveApplication_di" bpmnElement="Task_ReceiveApplication">
+        <dc:Bounds x="180" y="90" width="140" height="60"/>
+      </bpmndi:BPMNShape>
+
+      <bpmndi:BPMNShape id="Task_ApproveOnboarding_di" bpmnElement="Task_ApproveOnboarding">
+        <dc:Bounds x="360" y="90" width="160" height="60"/>
+      </bpmndi:BPMNShape>
+
+      <bpmndi:BPMNShape id="Task_PerformCDD_di" bpmnElement="Task_PerformCDD">
+        <dc:Bounds x="560" y="90" width="180" height="60"/>
+      </bpmndi:BPMNShape>
+
+      <bpmndi:BPMNShape id="EndEvent_1_di" bpmnElement="EndEvent_1">
+        <dc:Bounds x="780" y="100" width="36" height="36"/>
+      </bpmndi:BPMNShape>
+
+      <bpmndi:BPMNEdge id="Flow_1_di" bpmnElement="Flow_1">
+        <di:waypoint x="136" y="118"/>
+        <di:waypoint x="180" y="118"/>
+      </bpmndi:BPMNEdge>
+
+      <bpmndi:BPMNEdge id="Flow_2_di" bpmnElement="Flow_2">
+        <di:waypoint x="320" y="118"/>
+        <di:waypoint x="360" y="118"/>
+      </bpmndi:BPMNEdge>
+
+      <bpmndi:BPMNEdge id="Flow_3_di" bpmnElement="Flow_3">
+        <di:waypoint x="520" y="118"/>
+        <di:waypoint x="560" y="118"/>
+      </bpmndi:BPMNEdge>
+
+      <bpmndi:BPMNEdge id="Flow_4_di" bpmnElement="Flow_4">
+        <di:waypoint x="740" y="118"/>
+        <di:waypoint x="780" y="118"/>
+      </bpmndi:BPMNEdge>
+
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+
+</bpmn:definitions>

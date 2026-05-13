@@ -1,0 +1,424 @@
+{
+  "model_info": {
+    "source_bpmn": "C:\\Users\\rureis\\OneDrive - Capgemini\\Desktop\\POC\\AS-ISnew.bpmn",
+    "bpmn_name": "Compliance Alignment Review",
+    "main_process_id": "ComplianceAlignmentReviewProcess",
+    "num_nodes": 16,
+    "num_flows": 19,
+    "num_participants": 0,
+    "num_lanes": 4
+  },
+  "nodes": [
+    {
+      "id": "EndEvent_CaseClosed",
+      "name": "Case closed",
+      "type": "NormalEndEvent",
+      "process": "ComplianceAlignmentReviewProcess",
+      "in_degree": 1,
+      "out_degree": 0
+    },
+    {
+      "id": "Gateway_EscalationRequired",
+      "name": "Escalation required?",
+      "type": "ExclusiveGateway",
+      "process": "ComplianceAlignmentReviewProcess",
+      "in_degree": 1,
+      "out_degree": 2
+    },
+    {
+      "id": "Gateway_InfoComplete",
+      "name": "Information complete?",
+      "type": "ExclusiveGateway",
+      "process": "ComplianceAlignmentReviewProcess",
+      "in_degree": 1,
+      "out_degree": 2
+    },
+    {
+      "id": "Gateway_SpecialistNeeded",
+      "name": "Specialist input needed?",
+      "type": "ExclusiveGateway",
+      "process": "ComplianceAlignmentReviewProcess",
+      "in_degree": 1,
+      "out_degree": 2
+    },
+    {
+      "id": "StartEvent_SubmitNeed",
+      "name": "Need for review identified",
+      "type": "NormalStartEvent",
+      "process": "ComplianceAlignmentReviewProcess",
+      "in_degree": 0,
+      "out_degree": 1
+    },
+    {
+      "id": "Task_AnalyzeChange",
+      "name": "Compare current vs proposed process",
+      "type": "UserTask",
+      "process": "ComplianceAlignmentReviewProcess",
+      "in_degree": 2,
+      "out_degree": 1
+    },
+    {
+      "id": "Task_CommunicateDecision",
+      "name": "Communicate decision and conditions",
+      "type": "UserTask",
+      "process": "ComplianceAlignmentReviewProcess",
+      "in_degree": 2,
+      "out_degree": 2
+    },
+    {
+      "id": "Task_EscalatedApproval",
+      "name": "Approve / reject escalated case",
+      "type": "UserTask",
+      "process": "ComplianceAlignmentReviewProcess",
+      "in_degree": 1,
+      "out_degree": 1
+    },
+    {
+      "id": "Task_IntakeReview",
+      "name": "Review intake and scope",
+      "type": "UserTask",
+      "process": "ComplianceAlignmentReviewProcess",
+      "in_degree": 2,
+      "out_degree": 1
+    },
+    {
+      "id": "Task_PrepareDecision",
+      "name": "Prepare decision and rationale",
+      "type": "UserTask",
+      "process": "ComplianceAlignmentReviewProcess",
+      "in_degree": 1,
+      "out_degree": 1
+    },
+    {
+      "id": "Task_ProvideClarification",
+      "name": "Provide clarification / missing documents",
+      "type": "UserTask",
+      "process": "ComplianceAlignmentReviewProcess",
+      "in_degree": 1,
+      "out_degree": 1
+    },
+    {
+      "id": "Task_ReceiveDecision",
+      "name": "Receive outcome and next actions",
+      "type": "UserTask",
+      "process": "ComplianceAlignmentReviewProcess",
+      "in_degree": 1,
+      "out_degree": 1
+    },
+    {
+      "id": "Task_RegisterCase",
+      "name": "Register case and classify request",
+      "type": "UserTask",
+      "process": "ComplianceAlignmentReviewProcess",
+      "in_degree": 1,
+      "out_degree": 1
+    },
+    {
+      "id": "Task_SpecialistReview",
+      "name": "Review by Legal / Risk / AML / IT",
+      "type": "UserTask",
+      "process": "ComplianceAlignmentReviewProcess",
+      "in_degree": 1,
+      "out_degree": 1
+    },
+    {
+      "id": "Task_StoreEvidence",
+      "name": "Store evidence and close case",
+      "type": "UserTask",
+      "process": "ComplianceAlignmentReviewProcess",
+      "in_degree": 2,
+      "out_degree": 1
+    },
+    {
+      "id": "Task_SubmitRequest",
+      "name": "Submit process change request",
+      "type": "UserTask",
+      "process": "ComplianceAlignmentReviewProcess",
+      "in_degree": 1,
+      "out_degree": 1
+    }
+  ],
+  "flows": [
+    {
+      "id": "Flow_1",
+      "name": "",
+      "type": "SequenceFlow",
+      "source_id": "StartEvent_SubmitNeed",
+      "target_id": "Task_SubmitRequest",
+      "process": "ComplianceAlignmentReviewProcess"
+    },
+    {
+      "id": "Flow_10",
+      "name": "",
+      "type": "SequenceFlow",
+      "source_id": "Task_SpecialistReview",
+      "target_id": "Task_AnalyzeChange",
+      "process": "ComplianceAlignmentReviewProcess"
+    },
+    {
+      "id": "Flow_11",
+      "name": "No / complete",
+      "type": "SequenceFlow",
+      "source_id": "Gateway_SpecialistNeeded",
+      "target_id": "Task_PrepareDecision",
+      "process": "ComplianceAlignmentReviewProcess"
+    },
+    {
+      "id": "Flow_12",
+      "name": "",
+      "type": "SequenceFlow",
+      "source_id": "Task_PrepareDecision",
+      "target_id": "Gateway_EscalationRequired",
+      "process": "ComplianceAlignmentReviewProcess"
+    },
+    {
+      "id": "Flow_13",
+      "name": "Yes",
+      "type": "SequenceFlow",
+      "source_id": "Gateway_EscalationRequired",
+      "target_id": "Task_EscalatedApproval",
+      "process": "ComplianceAlignmentReviewProcess"
+    },
+    {
+      "id": "Flow_14",
+      "name": "No",
+      "type": "SequenceFlow",
+      "source_id": "Gateway_EscalationRequired",
+      "target_id": "Task_CommunicateDecision",
+      "process": "ComplianceAlignmentReviewProcess"
+    },
+    {
+      "id": "Flow_15",
+      "name": "",
+      "type": "SequenceFlow",
+      "source_id": "Task_EscalatedApproval",
+      "target_id": "Task_CommunicateDecision",
+      "process": "ComplianceAlignmentReviewProcess"
+    },
+    {
+      "id": "Flow_16",
+      "name": "",
+      "type": "SequenceFlow",
+      "source_id": "Task_CommunicateDecision",
+      "target_id": "Task_ReceiveDecision",
+      "process": "ComplianceAlignmentReviewProcess"
+    },
+    {
+      "id": "Flow_17",
+      "name": "",
+      "type": "SequenceFlow",
+      "source_id": "Task_CommunicateDecision",
+      "target_id": "Task_StoreEvidence",
+      "process": "ComplianceAlignmentReviewProcess"
+    },
+    {
+      "id": "Flow_18",
+      "name": "",
+      "type": "SequenceFlow",
+      "source_id": "Task_ReceiveDecision",
+      "target_id": "Task_StoreEvidence",
+      "process": "ComplianceAlignmentReviewProcess"
+    },
+    {
+      "id": "Flow_19",
+      "name": "",
+      "type": "SequenceFlow",
+      "source_id": "Task_StoreEvidence",
+      "target_id": "EndEvent_CaseClosed",
+      "process": "ComplianceAlignmentReviewProcess"
+    },
+    {
+      "id": "Flow_2",
+      "name": "",
+      "type": "SequenceFlow",
+      "source_id": "Task_SubmitRequest",
+      "target_id": "Task_IntakeReview",
+      "process": "ComplianceAlignmentReviewProcess"
+    },
+    {
+      "id": "Flow_3",
+      "name": "",
+      "type": "SequenceFlow",
+      "source_id": "Task_IntakeReview",
+      "target_id": "Gateway_InfoComplete",
+      "process": "ComplianceAlignmentReviewProcess"
+    },
+    {
+      "id": "Flow_4",
+      "name": "Yes",
+      "type": "SequenceFlow",
+      "source_id": "Gateway_InfoComplete",
+      "target_id": "Task_RegisterCase",
+      "process": "ComplianceAlignmentReviewProcess"
+    },
+    {
+      "id": "Flow_5",
+      "name": "No",
+      "type": "SequenceFlow",
+      "source_id": "Gateway_InfoComplete",
+      "target_id": "Task_ProvideClarification",
+      "process": "ComplianceAlignmentReviewProcess"
+    },
+    {
+      "id": "Flow_6",
+      "name": "",
+      "type": "SequenceFlow",
+      "source_id": "Task_ProvideClarification",
+      "target_id": "Task_IntakeReview",
+      "process": "ComplianceAlignmentReviewProcess"
+    },
+    {
+      "id": "Flow_7",
+      "name": "",
+      "type": "SequenceFlow",
+      "source_id": "Task_RegisterCase",
+      "target_id": "Task_AnalyzeChange",
+      "process": "ComplianceAlignmentReviewProcess"
+    },
+    {
+      "id": "Flow_8",
+      "name": "",
+      "type": "SequenceFlow",
+      "source_id": "Task_AnalyzeChange",
+      "target_id": "Gateway_SpecialistNeeded",
+      "process": "ComplianceAlignmentReviewProcess"
+    },
+    {
+      "id": "Flow_9",
+      "name": "Yes",
+      "type": "SequenceFlow",
+      "source_id": "Gateway_SpecialistNeeded",
+      "target_id": "Task_SpecialistReview",
+      "process": "ComplianceAlignmentReviewProcess"
+    }
+  ],
+  "processes": [
+    {
+      "id": "ComplianceAlignmentReviewProcess",
+      "name": "Compliance Alignment Review"
+    }
+  ],
+  "collaborations": [],
+  "participants": [],
+  "lanes": [
+    {
+      "id": "Lane_Approver",
+      "name": "Approver / Senior Management",
+      "process_id": "ComplianceAlignmentReviewProcess",
+      "lane_set_id": "LaneSet_1",
+      "flow_node_refs": [
+        "Task_EscalatedApproval"
+      ]
+    },
+    {
+      "id": "Lane_Specialists",
+      "name": "Specialist Stakeholders",
+      "process_id": "ComplianceAlignmentReviewProcess",
+      "lane_set_id": "LaneSet_1",
+      "flow_node_refs": [
+        "Task_SpecialistReview"
+      ]
+    },
+    {
+      "id": "Lane_Compliance",
+      "name": "Compliance",
+      "process_id": "ComplianceAlignmentReviewProcess",
+      "lane_set_id": "LaneSet_1",
+      "flow_node_refs": [
+        "Task_IntakeReview",
+        "Task_RegisterCase",
+        "Task_AnalyzeChange",
+        "Task_PrepareDecision",
+        "Task_CommunicateDecision",
+        "Task_StoreEvidence",
+        "Gateway_InfoComplete",
+        "Gateway_SpecialistNeeded",
+        "Gateway_EscalationRequired"
+      ]
+    },
+    {
+      "id": "Lane_Business",
+      "name": "Business Owner / Process Owner",
+      "process_id": "ComplianceAlignmentReviewProcess",
+      "lane_set_id": "LaneSet_1",
+      "flow_node_refs": [
+        "Task_SubmitRequest",
+        "Task_ProvideClarification",
+        "Task_ReceiveDecision",
+        "StartEvent_SubmitNeed"
+      ]
+    }
+  ],
+  "lane_to_nodes": {
+    "Lane_Approver": [
+      "Task_EscalatedApproval"
+    ],
+    "Lane_Specialists": [
+      "Task_SpecialistReview"
+    ],
+    "Lane_Compliance": [
+      "Task_IntakeReview",
+      "Task_RegisterCase",
+      "Task_AnalyzeChange",
+      "Task_PrepareDecision",
+      "Task_CommunicateDecision",
+      "Task_StoreEvidence",
+      "Gateway_InfoComplete",
+      "Gateway_SpecialistNeeded",
+      "Gateway_EscalationRequired"
+    ],
+    "Lane_Business": [
+      "Task_SubmitRequest",
+      "Task_ProvideClarification",
+      "Task_ReceiveDecision",
+      "StartEvent_SubmitNeed"
+    ]
+  },
+  "node_to_lane": {
+    "Task_EscalatedApproval": [
+      "Lane_Approver"
+    ],
+    "Task_SpecialistReview": [
+      "Lane_Specialists"
+    ],
+    "Task_IntakeReview": [
+      "Lane_Compliance"
+    ],
+    "Task_RegisterCase": [
+      "Lane_Compliance"
+    ],
+    "Task_AnalyzeChange": [
+      "Lane_Compliance"
+    ],
+    "Task_PrepareDecision": [
+      "Lane_Compliance"
+    ],
+    "Task_CommunicateDecision": [
+      "Lane_Compliance"
+    ],
+    "Task_StoreEvidence": [
+      "Lane_Compliance"
+    ],
+    "Gateway_InfoComplete": [
+      "Lane_Compliance"
+    ],
+    "Gateway_SpecialistNeeded": [
+      "Lane_Compliance"
+    ],
+    "Gateway_EscalationRequired": [
+      "Lane_Compliance"
+    ],
+    "Task_SubmitRequest": [
+      "Lane_Business"
+    ],
+    "Task_ProvideClarification": [
+      "Lane_Business"
+    ],
+    "Task_ReceiveDecision": [
+      "Lane_Business"
+    ],
+    "StartEvent_SubmitNeed": [
+      "Lane_Business"
+    ]
+  }
+}

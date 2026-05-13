@@ -1,0 +1,97 @@
+{
+  "nodes": [
+    {
+      "id": "EndEvent_1",
+      "name": "Process Completed",
+      "type": "NormalEndEvent",
+      "process": "Process_CustomerOnboarding",
+      "in_degree": 1,
+      "out_degree": 0,
+      "database_access": null
+    },
+    {
+      "id": "StartEvent_1",
+      "name": "Application Received",
+      "type": "NormalStartEvent",
+      "process": "Process_CustomerOnboarding",
+      "in_degree": 0,
+      "out_degree": 1,
+      "database_access": null
+    },
+    {
+      "id": "Task_ApproveOnboarding",
+      "name": "Approve Customer Onboarding",
+      "type": "Task",
+      "process": "Process_CustomerOnboarding",
+      "in_degree": 1,
+      "out_degree": 1,
+      "database_access": null
+    },
+    {
+      "id": "Task_PerformCDD",
+      "name": "Perform Customer Due Diligence",
+      "type": "Task",
+      "process": "Process_CustomerOnboarding",
+      "in_degree": 1,
+      "out_degree": 1,
+      "database_access": null
+    },
+    {
+      "id": "Task_ReceiveApplication",
+      "name": "Receive Customer Application",
+      "type": "Task",
+      "process": "Process_CustomerOnboarding",
+      "in_degree": 1,
+      "out_degree": 1,
+      "database_access": null
+    }
+  ],
+  "flows": [
+    {
+      "id": "Flow_1",
+      "name": "",
+      "type": "SequenceFlow",
+      "source_id": "StartEvent_1",
+      "target_id": "Task_ReceiveApplication",
+      "process": "Process_CustomerOnboarding"
+    },
+    {
+      "id": "Flow_2",
+      "name": "",
+      "type": "SequenceFlow",
+      "source_id": "Task_ReceiveApplication",
+      "target_id": "Task_ApproveOnboarding",
+      "process": "Process_CustomerOnboarding"
+    },
+    {
+      "id": "Flow_3",
+      "name": "",
+      "type": "SequenceFlow",
+      "source_id": "Task_ApproveOnboarding",
+      "target_id": "Task_PerformCDD",
+      "process": "Process_CustomerOnboarding"
+    },
+    {
+      "id": "Flow_4",
+      "name": "",
+      "type": "SequenceFlow",
+      "source_id": "Task_PerformCDD",
+      "target_id": "EndEvent_1",
+      "process": "Process_CustomerOnboarding"
+    }
+  ],
+  "processes": [
+    {
+      "id": "Process_CustomerOnboarding",
+      "name": "Customer Onboarding"
+    }
+  ],
+  "collaborations": [],
+  "participants": [],
+  "lanes": [],
+  "lane_to_nodes": {},
+  "node_to_lane": {},
+  "data_stores": [],
+  "data_store_references": [],
+  "activity_database_access": []
+}
