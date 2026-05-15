@@ -492,73 +492,74 @@ def generate_compliance_report(
         },
     )
 
-    prompt = f"""
-You are preparing a final compliance report for {audience}.
+#     prompt = f"""
+# You are preparing a final compliance report for {audience}.
 
-Assessment findings:
-{assessment}
+# Assessment findings:
+# {assessment}
 
-Never mention the JSON file, if you talk about Requirements in the report explicitly explain those requirements
-Create a clear final report with:
+# Never mention the JSON file, if you talk about Requirements in the report explicitly explain those requirements
+# Create a clear final report with:
 
-1. Executive summary
-2. Overall compliance status
-3. Key compliant areas
-4. Key gaps
-5. Risk rating
-6. Prioritized recommendations
-7. Information missing from the BPMN/process model
-8. Suggested next steps
-9. Relevant regulation
+# 1. Executive summary
+# 2. Overall compliance status
+# 3. Key compliant areas
+# 4. Key gaps
+# 5. Risk rating
+# 6. Prioritized recommendations
+# 7. Information missing from the BPMN/process model
+# 8. Suggested next steps
+# 9. Relevant regulation
 
 
 
-Keep it practical and concise.
-"""
+# Keep it practical and concise.
+# """
     
     prompt = f"""
-You are preparing a final compliance report for {audience}.
+    Estás a preparar um relatório final de conformidade para {audience}.
 
-Assessment findings:
-{assessment}
+    Conclusões da avaliação:
+    {assessment}
 
-Never refer to type of files(JSON,PDFs)
-Return only valid JSON.
+    Nunca faças referência ao tipo de ficheiros utilizados.
+    Devolve apenas JSON válido.
 
-Do not return Markdown.
-Do not wrap the JSON in ```json.
-Make sure to make use explicit natural language words not fields like Task_GDPR.
-Do not include explanations before or after the JSON.
+    Não devolvas Markdown.
+    Não envolvas o JSON em ```json.
+    Garante que todos os campos usam linguagem natural explícita, sem exceção. Se algum campo estiver num formato técnico ou pouco natural, altera-o para uma formulação mais natural.
+    Não incluas explicações antes ou depois do JSON.
+    Nunca, em nenhuma circunstância, incluas palavras em formatos como: "Verificação", "Approvals_Required". Em vez disso, usa expressões naturais como "Verificação do Cliente" ou "Aprovação Necessária".
 
-The JSON must follow exactly this structure:
+    O JSON deve seguir exatamente esta estrutura:
 
-{{
-  "resumo_do_caso": {{
-    "tipo": "string",
-    "risco_preliminar": "Baixo | Médio | Alto | Unknown",
-    "regulamentacao_potencialmente_aplicavel": ["string"],
-    "areas_de_controlo_impactadas": ["string"],
-    "red_flags_identificadas": ["string"]
-  }},
-  "avaliacao_de_conformidade": {{
-    "estado_geral": "Conforme | Parcialmente Conforme | Não Conforme | Unknown",
-    "nivel_de_risco": "Baixo | Médio | Alto | Unknown",
-    "requisitos_relevantes": ["string"],
-    "evidencia_no_processo": ["string"],
-    "gaps": ["string"],
-    "recomendacoes": ["string"]
-  }}
-}}
+    {{
+    "resumo_do_caso": {{
+        "tipo": "string",
+        "risco_preliminar": "Baixo | Médio | Alto | Unknown",
+        "regulamentacao_potencialmente_aplicavel": ["string"],
+        "areas_de_controlo_impactadas": ["string"],
+        "red_flags_identificadas": ["string"]
+    }},
+    "avaliacao_de_conformidade": {{
+        "estado_geral": "Conforme | Parcialmente Conforme | Não Conforme | Unknown",
+        "nivel_de_risco": "Baixo | Médio | Alto | Unknown",
+        "requisitos_relevantes": ["string"],
+        "evidencia_no_processo": ["string"],
+        "gaps": ["string"],
+        "recomendacoes": ["string"]
+    }}
+    }}
 
-Rules:
-- Use Portuguese labels/values where possible.
-- Use "Unknown" when information is missing.
-- Each list must contain strings only.
-- Do not invent legal requirements.
-- Base the output on the process summary, retrieved legal framework, extracted requirements, and compliance assessment.
+    Regras:
+    - Usa etiquetas e valores em português sempre.
+    - Usa "Unknown" quando a informação estiver em falta.
+    - Cada lista deve conter apenas strings.
+    - Não inventes requisitos legais.
+    - Baseia a resposta no resumo do processo, no enquadramento legal recuperado, nos requisitos extraídos e na avaliação de conformidade.
 
-Keep it practical and concise.
-""" 
+    Mantém a resposta prática e concisa.
+    """
 
 
 
