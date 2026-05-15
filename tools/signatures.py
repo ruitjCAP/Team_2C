@@ -527,6 +527,7 @@ Return only valid JSON.
 
 Do not return Markdown.
 Do not wrap the JSON in ```json.
+Make sure to make use explicit natural language words not fields like Task_GDPR.
 Do not include explanations before or after the JSON.
 
 The JSON must follow exactly this structure:

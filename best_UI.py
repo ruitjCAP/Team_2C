@@ -62,11 +62,7 @@ def risk_class(risk: str) -> str:
         return "risk-low"
     return "risk-unk"
  
-def run_analysis(question_text: str) -> str:
-    # IMPORT LAZY para evitar “white page” por bloqueio no import
-    from llm_call import ask_agent
-    return ask_agent(question_text)
- 
+
 
 def render_report(report: dict):
     resumo = report.get("resumo_do_caso", {}) or {}
@@ -104,6 +100,7 @@ def render_report(report: dict):
     else:
         st.markdown('<div class="ok-item">✅ Nenhuma área indicada.</div>', unsafe_allow_html=True)
     st.markdown('</div>', unsafe_allow_html=True)
+ 
  
     # Red Flags
     flags = resumo.get("red_flags_identificadas", []) or []
@@ -338,11 +335,7 @@ if "report" not in st.session_state:
 if report_choice:
     st.session_state.report_path = report_choice
  
-# Botão rápido
-# if generate_now:
-#     st.session_state.final_text = run_analysis("Is my process compliant?")
-#     st.session_state.report_path = latest_report_path()
- 
+
 # Submit do form
 if submitted:
     errors = []
