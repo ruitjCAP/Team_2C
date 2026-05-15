@@ -13,6 +13,7 @@ load_dotenv()
 PROCESS_PATH = "./json_processed/bpmn_analytics.json"
 
 
+
 import json
 from typing import Optional, List
 from pydantic import BaseModel, Field
@@ -70,7 +71,6 @@ class ProcessSummarizationInput(BaseModel):
 
 @tool(args_schema=ProcessSummarizationInput)
 def summarize_process_for_analysis(
-
     focus: Optional[str] = "full_process_context",
     include_precedences: bool = True,
     include_decision_paths: bool = True,
@@ -511,8 +511,55 @@ Create a clear final report with:
 8. Suggested next steps
 9. Relevant regulation
 
+
+
 Keep it practical and concise.
 """
+    
+    prompt = f"""
+You are preparing a final compliance report for {audience}.
+
+Assessment findings:
+{assessment}
+
+Never refer to type of files(JSON,PDFs)
+Return only valid JSON.
+
+Do not return Markdown.
+Do not wrap the JSON in ```json.
+Do not include explanations before or after the JSON.
+
+The JSON must follow exactly this structure:
+
+{{
+  "resumo_do_caso": {{
+    "tipo": "string",
+    "risco_preliminar": "Baixo | Médio | Alto | Unknown",
+    "regulamentacao_potencialmente_aplicavel": ["string"],
+    "areas_de_controlo_impactadas": ["string"],
+    "red_flags_identificadas": ["string"]
+  }},
+  "avaliacao_de_conformidade": {{
+    "estado_geral": "Conforme | Parcialmente Conforme | Não Conforme | Unknown",
+    "nivel_de_risco": "Baixo | Médio | Alto | Unknown",
+    "requisitos_relevantes": ["string"],
+    "evidencia_no_processo": ["string"],
+    "gaps": ["string"],
+    "recomendacoes": ["string"]
+  }}
+}}
+
+Rules:
+- Use Portuguese labels/values where possible.
+- Use "Unknown" when information is missing.
+- Each list must contain strings only.
+- Do not invent legal requirements.
+- Base the output on the process summary, retrieved legal framework, extracted requirements, and compliance assessment.
+
+Keep it practical and concise.
+""" 
+
+
 
     response = llm.invoke(prompt)
     return response.content
