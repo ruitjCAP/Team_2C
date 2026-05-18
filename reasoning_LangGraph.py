@@ -1,7 +1,7 @@
 from langgraph.graph import StateGraph, MessagesState, START
 from langgraph.prebuilt import ToolNode, tools_condition
 from langchain_core.messages import SystemMessage
-from save_trace import save_trace
+
 from Client.llmClient import create_llm
 from tools.signatures import (
     inspect_process,
@@ -32,6 +32,7 @@ tools = [summarize_process_for_analysis,
 
 llm = create_llm()
 llm_with_tools = llm.bind_tools(tools)
+
 
 
 SYSTEM_PROMPT = """
@@ -263,6 +264,8 @@ def print_stream2(stream, max_chars=2500):
 
         previous_state = dict(state)
 if __name__ == "__main__":
+    
+
     graph = build_compliance_graph()
 
     print_stream2(graph.stream(

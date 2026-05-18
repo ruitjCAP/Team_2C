@@ -9,7 +9,7 @@ load_dotenv()
 BASE_URL = os.getenv("base_url")
 
 # Connect to DB
-client = chromadb.PersistentClient(path="../chroma_db")
+client = chromadb.PersistentClient(path="./chroma_db")
 
 # Get collection (IMPORTANT: must pass same embedding function)
 collection = client.get_collection(
@@ -48,3 +48,8 @@ def rag(query):
     return query_results
 
 # print(rag(query))
+
+
+if __name__ == "__main__":
+    query = input("❓ Ask a question: ")
+    print(rag(query))

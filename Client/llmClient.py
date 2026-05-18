@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 from langchain_ibm import ChatWatsonx
 load_dotenv()
 
+print(os.getenv("WATSON_API_KEY"))
 def create_llm():
     return ChatWatsonx(
         model_id="meta-llama/llama-3-3-70b-instruct",

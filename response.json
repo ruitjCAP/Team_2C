@@ -1,0 +1,17 @@
+{
+    "resumo_do_caso": {
+        "tipo": "Avaliação de Conformidade",
+        "risco_preliminar": "Baixo",
+        "regulamentacao_potencialmente_aplicavel": ["Diretiva (UE) 2015/849", "Regulamento (UE) 2024/1624"],
+        "areas_de_controlo_impactadas": ["Due Diligence do Cliente", "Monitorização Contínua", "Categorização de Risco"],
+        "red_flags_identificadas": []
+    },
+    "avaliacao_de_conformidade": {
+        "estado_geral": "Parcialmente Conforme",
+        "nivel_de_risco": "Baixo",
+        "requisitos_relevantes": ["Compleção da Due Diligence do Cliente", "Realização de Due Diligence Aumentada para Clientes de Alto Risco", "Determinação do Proprietário Beneficiário"],
+        "evidencia_no_processo": ["Tarefas de Coleta e Verificação de Informações do Cliente", "Gateway de Conclusão da Due Diligence do Cliente"],
+        "gaps": [],
+        "recomendacoes": ["Manter a Due Diligence do Cliente completa e confirmada antes de aprovar, ativar ou estabelecer uma relação de negócios com um cliente", "Realizar Due Diligence Aumentada para Clientes de Alto Risco"]
+    }
+}

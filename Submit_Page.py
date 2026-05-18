@@ -65,86 +65,143 @@ def risk_class(risk: str) -> str:
 
 
 def render_report(report: dict):
+    
     resumo = report.get("resumo_do_caso", {}) or {}
     avaliacao = report.get("avaliacao_de_conformidade", {}) or {}
- 
-    st.markdown('<div class="report-header">RELATÓRIO DE AVALIAÇÃO </div>', unsafe_allow_html=True)
- 
-    # Resumo do caso
-    st.markdown('<div class="section-card">', unsafe_allow_html=True)
-    st.markdown('<div class="section-title">📌 Resumo do caso</div>', unsafe_allow_html=True)
  
     tipo = resumo.get("tipo", "Unknown")
     risco = resumo.get("risco_preliminar", "Unknown")
     regs = resumo.get("regulamentacao_potencialmente_aplicavel", []) or []
+    wrapper_key = "report_wrapper_low" if is_low_risk(risco) else "report_wrapper_high" if is_high_risk(risco) else "report_wrapper_default"
+
+
+
+    st.markdown('<div class="report-header">RELATÓRIO DE AVALIAÇÃO </div>', unsafe_allow_html=True)
+    
+
+    with st.container(key=wrapper_key):
+
+        # Resumo do caso
+        st.markdown('<div class="section-card">', unsafe_allow_html=True)
+        st.markdown('<div class="section-title">📌 Resumo do caso</div>', unsafe_allow_html=True)
+    
+        
+    
+        st.markdown(
+            f"""
+            <div class="kv"><div class="kv-label">Tipo:</div><div class="kv-value">{tipo}</div></div>
+            <div class="kv"><div class="kv-label">Risco Preliminar:</div><div class="badge {risk_class(risco)}">{risco}</div></div>
+            <div class="kv"><div class="kv-label">Regulamentação Potencialmente Aplicável:</div></div>
+            """,
+            unsafe_allow_html=True
+        )
+        for r in regs:
+            st.markdown(f'<span class="chip">✅ {r}</span>', unsafe_allow_html=True)
+        st.markdown('</div>', unsafe_allow_html=True)
+    
+        # Áreas de Controlo
+        areas = resumo.get("areas_de_controlo_impactadas", []) or []
+        st.markdown('<div class="section-card">', unsafe_allow_html=True)
+        st.markdown('<div class="section-title">🛡️ Áreas de Controlo Impactadas</div>', unsafe_allow_html=True)
+        if areas:
+            for a in areas:
+                st.markdown(f'<span class="chip">🟢 {a}</span>', unsafe_allow_html=True)
+        else:
+            st.markdown('<div class="ok-item">✅ Nenhuma área indicada.</div>', unsafe_allow_html=True)
+        st.markdown('</div>', unsafe_allow_html=True)
+    
+    
+        # Red Flags
+        flags = resumo.get("red_flags_identificadas", []) or []
+        st.markdown('<div class="section-card">', unsafe_allow_html=True)
+        st.markdown('<div class="section-title">🚩 Red Flags Identificadas</div>', unsafe_allow_html=True)
+        if flags:
+            for f in flags:
+                st.markdown(f'<div class="flag-item">❗ {f}</div>', unsafe_allow_html=True)
+        else:
+            st.markdown('<div class="ok-item">✅ Nenhuma red flag identificada.</div>', unsafe_allow_html=True)
+        st.markdown('</div>', unsafe_allow_html=True)
+    
+        # Avaliação
+        st.markdown('<div class="section-card">', unsafe_allow_html=True)
+        st.markdown('<div class="section-title">📌 Avaliação de Conformidade</div>', unsafe_allow_html=True)
+    
+        estado = avaliacao.get("estado_geral", "Unknown")
+        nivel_risco = avaliacao.get("nivel_de_risco", "Unknown")
+    
+        st.markdown(
+            f"""
+            <div class="kv"><div class="kv-label">Estado Geral:</div><div class="kv-value">{estado}</div></div>
+            <div class="kv"><div class="kv-label">Nível de Risco:</div><div class="badge {risk_class(nivel_risco)}">{nivel_risco}</div></div>
+            """,
+            unsafe_allow_html=True
+        )
+    
+        with st.expander("📚 Requisitos relevantes"):
+            items = avaliacao.get("requisitos_relevantes") or []
+            st.write("\n".join([f"- {x}" for x in items]) if items else "Unknown")
+    
+        with st.expander("🔎 Evidência no processo"):
+            items = avaliacao.get("evidencia_no_processo") or []
+            st.write("\n".join([f"- {x}" for x in items]) if items else "Unknown")
+    
+        with st.expander("🧩 Gaps / Lacunas"):
+            items = avaliacao.get("gaps") or []
+            st.write("\n".join([f"- {x}" for x in items]) if items else "Unknown")
+    
+        with st.expander("✅ Recomendações"):
+            items = avaliacao.get("recomendacoes") or []
+            st.write("\n".join([f"- {x}" for x in items]) if items else "Unknown")
  
-    st.markdown(
-        f"""
-        <div class="kv"><div class="kv-label">Tipo:</div><div class="kv-value">{tipo}</div></div>
-        <div class="kv"><div class="kv-label">Risco Preliminar:</div><div class="badge {risk_class(risco)}">{risco}</div></div>
-        <div class="kv"><div class="kv-label">Regulamentação Potencialmente Aplicável:</div></div>
-        """,
-        unsafe_allow_html=True
-    )
-    for r in regs:
-        st.markdown(f'<span class="chip">✅ {r}</span>', unsafe_allow_html=True)
     st.markdown('</div>', unsafe_allow_html=True)
- 
-    # Áreas de Controlo
-    areas = resumo.get("areas_de_controlo_impactadas", []) or []
-    st.markdown('<div class="section-card">', unsafe_allow_html=True)
-    st.markdown('<div class="section-title">🛡️ Áreas de Controlo Impactadas</div>', unsafe_allow_html=True)
-    if areas:
-        for a in areas:
-            st.markdown(f'<span class="chip">🟢 {a}</span>', unsafe_allow_html=True)
-    else:
-        st.markdown('<div class="ok-item">✅ Nenhuma área indicada.</div>', unsafe_allow_html=True)
-    st.markdown('</div>', unsafe_allow_html=True)
- 
- 
-    # Red Flags
-    flags = resumo.get("red_flags_identificadas", []) or []
-    st.markdown('<div class="section-card">', unsafe_allow_html=True)
-    st.markdown('<div class="section-title">🚩 Red Flags Identificadas</div>', unsafe_allow_html=True)
-    if flags:
-        for f in flags:
-            st.markdown(f'<div class="flag-item">❗ {f}</div>', unsafe_allow_html=True)
-    else:
-        st.markdown('<div class="ok-item">✅ Nenhuma red flag identificada.</div>', unsafe_allow_html=True)
-    st.markdown('</div>', unsafe_allow_html=True)
- 
-    # Avaliação
-    st.markdown('<div class="section-card">', unsafe_allow_html=True)
-    st.markdown('<div class="section-title">📌 Avaliação de Conformidade</div>', unsafe_allow_html=True)
- 
-    estado = avaliacao.get("estado_geral", "Unknown")
-    nivel_risco = avaliacao.get("nivel_de_risco", "Unknown")
- 
-    st.markdown(
-        f"""
-        <div class="kv"><div class="kv-label">Estado Geral:</div><div class="kv-value">{estado}</div></div>
-        <div class="kv"><div class="kv-label">Nível de Risco:</div><div class="badge {risk_class(nivel_risco)}">{nivel_risco}</div></div>
-        """,
-        unsafe_allow_html=True
-    )
- 
-    with st.expander("📚 Requisitos relevantes"):
-        items = avaliacao.get("requisitos_relevantes") or []
-        st.write("\n".join([f"- {x}" for x in items]) if items else "Unknown")
- 
-    with st.expander("🔎 Evidência no processo"):
-        items = avaliacao.get("evidencia_no_processo") or []
-        st.write("\n".join([f"- {x}" for x in items]) if items else "Unknown")
- 
-    with st.expander("🧩 Gaps / Lacunas"):
-        items = avaliacao.get("gaps") or []
-        st.write("\n".join([f"- {x}" for x in items]) if items else "Unknown")
- 
-    with st.expander("✅ Recomendações"):
-        items = avaliacao.get("recomendacoes") or []
-        st.write("\n".join([f"- {x}" for x in items]) if items else "Unknown")
- 
-    st.markdown('</div>', unsafe_allow_html=True)
+
+st.markdown("""
+<style>
+.st-key-report_wrapper_low {
+    border: 3px solid #22c55e;
+    border-radius: 22px;
+    padding: 22px;
+    margin-top: 18px;
+    background-color: #f0fdf4;
+    box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.15);
+}
+
+.st-key-report_wrapper_default {
+    border: 1px solid #e5e7eb;
+    border-radius: 22px;
+    padding: 22px;
+    margin-top: 18px;
+    background-color: #ffffff;
+}
+.st-key-report_wrapper_high {
+    border: 1px solid #e5e7eb;
+    border-radius: 22px;
+    padding: 22px;
+    margin-top: 18px;
+    background-color: #fef2f2;
+    box-shadow: 0 0 0 3px rgba(255,0, 0, 0.4);
+}
+
+  
+
+
+.section-card {
+    background: transparent; 
+    padding: 0.2rem 0.4rem;
+    border-radius: 2px;
+    border: 1px solid #e5e7eb;
+    box-shadow: none;
+    margin-bottom: 0.25rem;
+}
+
+</style>
+""", unsafe_allow_html=True)
+
+def is_low_risk(value: str) -> bool:
+    return str(value).strip().lower() == "baixo"
+
+def is_high_risk(value: str) -> bool:
+    return str(value).strip().lower() == "alto"
 
 # =========================
 # Custom CSS
@@ -371,6 +428,11 @@ if submitted:
                     "user_question": "Is my process compliant?"
                 },stream_mode="values"
             )) )
+            # with open('response.json', 'r',encoding='utf-8') as file:
+            #     st.session_state.report = json.load(file)
+
+            st.switch_page("pages/1_Report_Page.py")
+            
             
 
         
@@ -384,7 +446,7 @@ if submitted:
 if st.session_state.report and submitted:
     try:
         
-        render_report(st.session_state.report)
+        #render_report(st.session_state.report)
         st.caption(f"Relatório carregado de: {st.session_state.report_path}")
     except Exception as e:
         st.error("Não foi possível carregar/renderizar o relatório JSON.")

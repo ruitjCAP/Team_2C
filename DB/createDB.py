@@ -3,7 +3,11 @@ import chromadb
 from chromadb.utils.embedding_functions import OpenAIEmbeddingFunction
 from dotenv import load_dotenv
 import pdfplumber
-
+import fitz  # PyMuPDF
+import pytesseract
+from PIL import Image
+import io
+from  cleanDB import reset_chroma_db 
 
 def get_context(query, n_results=5):
     collection = get_collection()
@@ -28,12 +32,16 @@ def chunk_text(text, chunk_size=500, overlap=100):
 
     return chunks
 
-def extract_text_from_pdf(path):
+def extract_text_from_pdf(path,ocr_language='eng'):
     text = ""
-    with pdfplumber.open(path) as pdf:
-        for page in pdf.pages:
-            page_text = page.extract_text()
-            if page_text:
+
+    with fitz.open(path) as pdf:
+        for page_number in range(len(pdf)):
+            page = pdf[page_number]
+            pix = page.get_pixmap(dpi=300)
+            image = Image.open(io.BytesIO(pix.tobytes("png")))
+            page_text = pytesseract.image_to_string(image, lang=ocr_language)
+            if page_text.strip():
                 text += page_text + "\n"
 
     return text
@@ -43,7 +51,7 @@ load_dotenv()
 BASE_URL = os.getenv("base_url")
 
 def get_collection():
-    client = chromadb.PersistentClient(path="../chroma_db")
+    client = chromadb.PersistentClient(path="./chroma_db")
 
     collection = client.get_or_create_collection(
         name="Compliance_files",
@@ -60,7 +68,8 @@ def ingest_pdfs(folder_path="./pdfs"):
     collection = get_collection()
 
     for file in os.listdir(folder_path):
-        if file.endswith(".pdf"):
+        if file.endswith(".pdf") and file =="Policies_OCR.pdf":
+            
             path = os.path.join(folder_path, file)
 
             print(f"Processing {file}...")
@@ -89,6 +98,8 @@ def ingest_pdfs(folder_path="./pdfs"):
 
     print("✅ Ingestion complete")
 
+
+reset_chroma_db()
 
 # STEP 1: Load PDFs (run once)
 ingest_pdfs("./pdfs")
